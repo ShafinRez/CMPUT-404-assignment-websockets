@@ -270,11 +270,6 @@
           try {
             debug("WebSocket Recv:" + msg.data);
             //XXX: TODO What are you going to do here?
-            let data = JSON.parse(msg.data);
-            for (let entity in data) {
-              world[entity] = data[entity];
-            }
-            drawNextFrame();
           } catch (e) {
             alert("socket on message: " + e);
           }
