@@ -26,6 +26,13 @@ app = Flask(__name__)
 sockets = Sockets(app)
 app.debug = True
 
+'''
+Used code to implement socket functionality from:
+Author: Abram Hindle
+https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py#L78
+
+'''
+
 clients = list()
 
 def send_all(msg):
@@ -84,6 +91,13 @@ myWorld = World()
 def set_listener( entity, data ):
     ''' do something with the update ! '''
     myWorld.add_set_listener( set_listener )
+
+'''
+Used code to implement socket functionality from:
+Author: Abram Hindle
+https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py#L78
+
+'''
         
 @app.route('/')
 def hello():
@@ -140,7 +154,9 @@ def flask_post_json():
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    
+    for i in flask_post_json.keys():
+        for j in flask_post_json.values():
+            myWorld.update(entity,i,j)
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
