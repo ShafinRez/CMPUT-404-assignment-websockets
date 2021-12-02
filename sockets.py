@@ -42,6 +42,7 @@ def send_all(msg):
 def send_all_json(obj):
     send_all( json.dumps(obj) )
 
+
 class Client:
     def __init__(self):
         self.queue = queue.Queue()
@@ -157,6 +158,7 @@ def update(entity):
     for i in flask_post_json.keys():
         for j in flask_post_json.values():
             myWorld.update(entity,i,j)
+    return jsonify(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
@@ -173,7 +175,7 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return world()
+    return jsonify(myWorld.world())
 
 
 

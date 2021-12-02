@@ -131,7 +131,7 @@
         var updateEntity = {};
         updateEntity[entity] = data;
         socket.send(JSON.stringify(updateEntity))
-        
+        drawNextFrame(); // (but should we?)
     }
     var counter = 0;
     function addEntityWithoutName(data) {
@@ -238,11 +238,11 @@
     // Add the application specific mouse listeners!
     //XXX: TODO Make these prettier!
     mouse.mousedowners.push(function(x,y,clicked,e) {
-        addEntityWithoutName({'x':x,'y':y,'colour':'blue', 'radius':50});
+        addEntityWithoutName({'x':x,'y':y,'colour':'purple', 'radius':50});
     });
 
     mouse.mouseuppers.push(function(x,y,clicked,e) {
-        addEntityWithoutName({'x':x,'y':y,'colour':'red', 'radius': 50});
+        addEntityWithoutName({'x':x,'y':y,'colour':'green', 'radius': 50});
     });
 
     mouse.mousedraggers.push(function(x,y,clicked,e) {
@@ -261,7 +261,7 @@
         socket = new WebSocket(url);
         socket.onopen = function () {
           //XXX: TODO What are you going to do here?
-          console.log('Websocket')
+          console.log('Websocket opened');
         };
         socket.onerror = function (msg) {
           debug("WebSocket Error:" + msg.data);
@@ -270,6 +270,13 @@
           try {
             debug("WebSocket Recv:" + msg.data);
             //XXX: TODO What are you going to do here?
+            var recv = JSON.parse(msg.data)
+            for(let i in recv){
+                //console.log(i);
+                world[i]= recv[i];
+            
+                drawNextFrame();
+            }
           } catch (e) {
             alert("socket on message: " + e);
           }
